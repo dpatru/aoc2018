@@ -17,7 +17,7 @@ import Data.Set (Set, singleton, member, insert)
 stripPlus ('+':rest) = rest
 stripPlus xs = xs
 
-extendList ls = ls ++ extendList ls
+extendList ls = ls ++ extendList ls -- lazy infinite list
 
 process s f (c:cs) =
   if (f+c) `member` s
