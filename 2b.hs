@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Data.Set (Set, member, insert, empty)
 
 data Solution = NotFound
@@ -37,3 +38,25 @@ main = do
 -- main = do
 --   interact (unlines . map sort . lines)
 --   putStrLn ""
+=======
+import Data.Set (Set, insert, empty, member)
+
+type MySet = Set (String,String)
+data State =  Begin MySet [String] 
+           |  Check String String MySet [String]
+           |  Found String String
+           |  Fail
+  deriving Show
+  
+check :: State -> State
+check (Begin _ []) = Fail
+check (Begin set (w:ws)) = check (Check w "" set ws)
+check (Check "" _ set ws) = check (Begin set ws)
+check (Check (x:xs) ys set ws) 
+  | (xs, ys) `member` set = Found (reverse ys) xs
+  | otherwise = check (Check xs (x:ys) ((xs,ys) `insert` set) ws)
+  
+main = do
+  interact (show . (check . Begin empty) . lines)
+  putStrLn ""
+>>>>>>> a1c25a55ac8252ebe52c0139c6f90cbf7e1c8928
